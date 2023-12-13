@@ -3,6 +3,8 @@ import {UserEntity} from "../entities/user.entity";
 import {OrderDto} from "./order.dto";
 import {RoleDto} from "./role.dto";
 import {ApiProperty} from "@nestjs/swagger";
+import {OrderEntity} from "../entities/order.entity";
+import {RoleEntity} from "../entities/role.entity";
 
 export class UserDto {
     @ApiProperty()
@@ -10,33 +12,47 @@ export class UserDto {
     @IsNotEmpty()
     @IsString()
     @MinLength(3)
+    @ApiProperty()
     name: string;
 
     @IsNotEmpty()
     @IsString()
+    @ApiProperty()
     address: string;
 
     @IsNotEmpty()
     @IsEmail()
+    @ApiProperty()
     email: string;
 
     @IsNotEmpty()
     @MinLength(9)
     @IsString()
+    @ApiProperty()
     phoneNumber: string;
 
+    @ApiProperty()
     password: string;
+    @ApiProperty()
     imageUrl: string;
+    @ApiProperty()
     tokenResetPassword: string;
 
+    @ApiProperty()
     isActive: boolean;
 
+    @ApiProperty()
     createdBy: string;
+    @ApiProperty()
     createdDate: Date;
+    @ApiProperty()
     updatedBy: string;
+    @ApiProperty()
     updatedDate: Date;
 
+    @ApiProperty({type: () => OrderDto})
     orderDto: OrderDto[];
+    @ApiProperty({ type: ()=> RoleDto})
     role: RoleDto;
 
     public static fromEntity(entity: UserEntity | null) : UserDto{

@@ -15,6 +15,4 @@ import {StockRepository} from "../repositories/stock.repository";
     }],
     exports: [StockService]
 })
-export class StockModule {
-
-}
+export class StockModule {}

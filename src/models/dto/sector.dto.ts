@@ -1,10 +1,14 @@
 import {CategoryDto} from "./category.dto";
 import {SectorEntity} from "../entities/sector.entity";
+import {ApiProperty} from "@nestjs/swagger";
 
 export class SectorDto {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     name: string;
 
+    @ApiProperty()
     categoriesDto: CategoryDto[];
 
     static fromEntity(entity: SectorEntity): SectorDto{

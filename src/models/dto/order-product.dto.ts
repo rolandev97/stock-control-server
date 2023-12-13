@@ -4,10 +4,14 @@ import {ProductEntity} from "../entities/product.entity";
 import {ProductDto} from "./product.dto";
 import {OrderDto} from "./order.dto";
 import {OrderProductEntity} from "../entities/order-product.entity";
+import {ApiProperty} from "@nestjs/swagger";
 
 export class OrderProductDto {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     orderDto: OrderDto;
+    @ApiProperty( { type: () => ProductDto})
     productDto: ProductDto;
 
     static fromEntity(entity: OrderProductEntity): OrderProductDto{

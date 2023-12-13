@@ -12,13 +12,15 @@ import { join } from 'path';
 import {RoleService} from "./services/dao-impl/role.service";
 import {SectorService} from "./services/dao-impl/sector.service";
 import {CategoryService} from "./services/dao-impl/category.service";
+import {OrderTypeEntity} from "./models/entities/order-type.entity";
+import {OrderTypeService} from "./services/dao-impl/order-type.service";
 
 async function bootstrap() {
 
   //Create nest module
   const app = await NestFactory.create(AppModule);
 
-  //Use valid ation pipe for all app request
+  //Use valid action pipe for all app request
   app.useGlobalPipes(new ValidationPipe());
 
   //Enable cors
@@ -99,6 +101,12 @@ async function bootstrap() {
     {name: "Maintenance equipment", code:"MAE", sector: { id : 9}},
   ]
 
+  const dataOrderType: any = [
+    {type: "Purchase"},
+    {type: "Sale"},
+    {type: "Transfer"}
+  ]
+
   const roleService = app.get(RoleService);
   if(await roleService.checkIfDataExist()){
     await roleService.createRole(roleUser);
@@ -113,6 +121,11 @@ async function bootstrap() {
   const catService = app.get(CategoryService);
   if(await catService.checkIfDataExist()){
     await catService.createCategory(dateCategory);
+  }
+
+  const orderTypeService = app.get(OrderTypeService);
+  if(await orderTypeService.checkIfDataExist()){
+    await orderTypeService.createOrderType(dataOrderType);
   }
 
 

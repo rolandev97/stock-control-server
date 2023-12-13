@@ -22,7 +22,7 @@ export class OrderService implements OrderDao{
     }
 
     getOrderById(orderId: number): Promise<OrderDto> {
-        return this.orderRepo.findOne( { where: {id: orderId}, relations: ["user"] })
+        return this.orderRepo.findOne( { where: {id: orderId}, relations: ["user", "orderProduct", "orderType"] })
             .then( entity => OrderDto.fromEntity(entity));
     }
 
@@ -44,7 +44,7 @@ export class OrderService implements OrderDao{
 
     updateOrder(orderId: number, orderDto: OrderDto): Promise<OrderDto> {
         return this.orderRepo.update(orderId, orderDto)
-            .then(() => this.orderRepo.findOne({where: {id: orderId}, relations: ["user"]}))
+            .then(() => this.orderRepo.findOne({where: {id: orderId}, relations: ["user", "orderProduct", "orderType"]}))
             .then(o => OrderDto.fromEntity(o));
     }
 

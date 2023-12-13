@@ -1,6 +1,7 @@
 import {UserDto} from "./user.dto";
 import {OrderEntity} from "../entities/order.entity";
 import { ApiProperty } from "@nestjs/swagger";
+import {OrderTypeDto} from "./order-type.dto";
 
 export class OrderDto {
     @ApiProperty()
@@ -20,6 +21,8 @@ export class OrderDto {
 
     @ApiProperty({ type: () => UserDto})
     userDto: UserDto;
+    @ApiProperty()
+    orderType: OrderTypeDto;
 
     public static fromEntity(order: OrderEntity | null): OrderDto{
         const dto = new OrderDto();

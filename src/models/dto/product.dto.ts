@@ -14,6 +14,8 @@ export class ProductDto {
     description: string;
     @ApiProperty()
     price: number;
+    @ApiProperty()
+    quantity: number;
 
     @ApiProperty()
     orderProductDto: OrderProductDto[];

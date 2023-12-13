@@ -25,6 +25,8 @@ export class ProductEntity extends Audit{
     description: string;
     @Column({type: 'int', nullable: false})
     price: number;
+    @Column({type: "int", nullable: false})
+    quantity: number;
 
     @OneToMany(type => OrderProductEntity, orderProduct => orderProduct.product)
     orderProduct: OrderProductEntity[];

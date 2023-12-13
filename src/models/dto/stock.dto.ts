@@ -7,8 +7,6 @@ export class StockDto {
     @ApiProperty()
     id: number;
     @ApiProperty()
-    quantity: number;
-    @ApiProperty()
     location: string;
     @ApiProperty()
     releaseDate: Date;
@@ -20,7 +18,6 @@ export class StockDto {
         const dto = new StockDto();
         dto.id = entity.id;
         dto.location = entity.location;
-        dto.quantity = entity.quantity;
         dto.productDto = ProductDto.fromEntity(entity.product);
         return dto;
     }

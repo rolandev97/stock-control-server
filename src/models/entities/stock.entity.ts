@@ -6,8 +6,6 @@ import {ProductEntity} from "./product.entity";
 export class StockEntity extends Audit{
     @PrimaryGeneratedColumn()
     id: number;
-    @Column({type: 'int'})
-    quantity: number;
     @Column()
     location: string;
     @Column()

@@ -11,6 +11,7 @@ import {OrderModule} from "./modules/order.module";
 import {ProviderModule} from "./modules/provider.module";
 import {ProviderProductModule} from "./modules/provider-product.module";
 import {StockModule} from "./modules/stock.module";
+import {OrderTypeModule} from "./modules/order-type.module";
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import {StockModule} from "./modules/stock.module";
               password: configService.get('DATABASE_PASSWORD'),
               database: configService.get('DATABASE_NAME'),
               entities: ["dist/**/*.entity.js"],
-              synchronize: false,
+              synchronize: true,
               migrations: ["dist/db/migrations/*.js"],
               logging: true,
           }),
@@ -35,7 +36,8 @@ import {StockModule} from "./modules/stock.module";
       UserModule, AuthModule, RoleModule,
       MailModule, CategoryModule, SectorModule,
       OrderModule, ProviderModule, ProviderProductModule,
-      StockModule
+      StockModule, OrderTypeModule
+
   ],
   controllers: [],
   providers: [],

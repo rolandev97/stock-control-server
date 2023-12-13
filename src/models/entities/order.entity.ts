@@ -3,6 +3,7 @@ import {UserEntity} from "./user.entity";
 import {Audit} from "../audit";
 import {ProductEntity} from "./product.entity";
 import {OrderProductEntity} from "./order-product.entity";
+import {OrderTypeEntity} from "./order-type.entity";
 
 @Entity({name: 'Order'})
 export class OrderEntity extends Audit{
@@ -17,5 +18,7 @@ export class OrderEntity extends Audit{
     user: UserEntity;
     @OneToMany(type => OrderProductEntity, orderProduct => orderProduct.order)
     orderProduct: OrderProductEntity[];
+    @ManyToOne( type => OrderTypeEntity, ot => ot.order)
+    orderType: OrderTypeEntity;
 
 }

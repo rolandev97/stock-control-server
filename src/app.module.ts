@@ -10,6 +10,7 @@ import {SectorModule} from "./modules/sector.module";
 import {OrderModule} from "./modules/order.module";
 import {ProviderModule} from "./modules/provider.module";
 import {ProviderProductModule} from "./modules/provider-product.module";
+import {StockModule} from "./modules/stock.module";
 
 @Module({
   imports: [
@@ -26,15 +27,15 @@ import {ProviderProductModule} from "./modules/provider-product.module";
               password: configService.get('DATABASE_PASSWORD'),
               database: configService.get('DATABASE_NAME'),
               entities: ["dist/**/*.entity.js"],
-              synchronize: true,
+              synchronize: false,
               migrations: ["dist/db/migrations/*.js"],
               logging: true,
           }),
       }),
       UserModule, AuthModule, RoleModule,
-
       MailModule, CategoryModule, SectorModule,
-      OrderModule, ProviderModule, ProviderProductModule
+      OrderModule, ProviderModule, ProviderProductModule,
+      StockModule
   ],
   controllers: [],
   providers: [],

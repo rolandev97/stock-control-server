@@ -1,14 +1,19 @@
-import {Column, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {ProductEntity} from "../entities/product.entity";
 import {ProductDto} from "./product.dto";
 import {StockEntity} from "../entities/stock.entity";
+import { ApiProperty } from "@nestjs/swagger";
+import {ProductEntity} from "../entities/product.entity";
 
 export class StockDto {
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     quantity: number;
+    @ApiProperty()
     location: string;
+    @ApiProperty()
     releaseDate: Date;
 
+    @ApiProperty({ type: () => ProductDto})
     productDto: ProductDto;
 
     static fromEntity(entity: StockEntity): StockDto{

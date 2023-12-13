@@ -3,6 +3,9 @@ import {ProviderDao} from "../dao/provider.dao";
 import {Injectable} from "@nestjs/common";
 import {ProviderRepository} from "../../repositories/provider.repository";
 import {OrderDto} from "../../models/dto/order.dto";
+import {log} from "util";
+import {PaginationDataDto} from "../../models/dto/pagination-data.dto";
+import {ProductDto} from "../../models/dto/product.dto";
 
 @Injectable()
 export class ProviderService implements ProviderDao{
@@ -24,9 +27,20 @@ export class ProviderService implements ProviderDao{
             .then( entity => ProviderDto.fromEntity(entity!));
     }
 
-    getProviders(): Promise<ProviderDto[]> {
-        return this.providerRepo.find({relations: ["providerProduct"] })
-            .then( entityMap => entityMap.map( providerEntity => ProviderDto.fromEntity(providerEntity)) );
+    async getProviders(page: number, limit: number): Promise<PaginationDataDto<ProviderDto>> {
+        const skip = (page - 1) * limit;
+        const [data, total] = await this.providerRepo.findAndCount({
+            skip: skip,
+            take: limit,
+            relations: ['providerProduct']
+        });
+        const totalPages = Math.ceil(total / limit);
+        const paginationDataDto = new PaginationDataDto<ProviderDto>();
+        paginationDataDto.data = data.map((p) => ProviderDto.fromEntity(p));
+        paginationDataDto.currentPage = page;
+        paginationDataDto.totalPages = totalPages;
+
+        return paginationDataDto;
     }
 
     updateProvider(providerId: number, providerDto: ProviderDto): Promise<ProviderDto> {

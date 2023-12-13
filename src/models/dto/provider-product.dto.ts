@@ -1,12 +1,14 @@
-import {ProductEntity} from "../entities/product.entity";
-import {ProviderEntity} from "../entities/provider.entity";
 import {ProviderProductEntity} from "../entities/provider-product.entity";
 import {ProductDto} from "./product.dto";
 import {ProviderDto} from "./provider.dto";
+import {ApiProperty} from "@nestjs/swagger";
 
 export class ProviderProductDto{
+    @ApiProperty()
     id: number;
+    @ApiProperty()
     productDto: ProductDto;
+    @ApiProperty()
     providerDto: ProviderDto;
 
     static fromEntity(entity: ProviderProductEntity | null): ProviderProductDto{

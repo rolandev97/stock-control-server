@@ -28,10 +28,10 @@ export class ProviderController{
         return this.providerService.updateProvider(Number.parseInt(providerId), providerDto);
     }
 
-    @Get("get-providers")
+    @Get("get-providers/:page/:limit")
     @HttpCode(HttpStatus.OK)
-    async getProviders(){
-        return this.providerService.getProviders();
+    async getProviders(@Param("page") page: number, @Param("limit") limit:number){
+        return this.providerService.getProviders(page, limit ?? 10);
     }
 
     @Get("get-provider/:id")

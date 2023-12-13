@@ -25,8 +25,7 @@ export class UserService implements UserDao{
         mailDto.content = `Hi, ${user.name} your <strong>Stock Control</strong> account has been successfully created.<br>Your defaut password is ${user.password}, please change it.`;
         user.password = encryptPass;
         user.isActive = true;
-        const defaultRole = new RoleDto();
-        defaultRole.id = "63959055-f4b6-41c8-851d-59d543e9f912";
+        const defaultRole = await this.roleService.findRoleByName("ROLE_USER");
         user.role = defaultRole;
         const result = await this.userRepository.save(user);
         if(result != null){

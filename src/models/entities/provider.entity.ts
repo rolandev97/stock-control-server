@@ -14,5 +14,5 @@ export class ProviderEntity extends Audit{
     telephone: string;
 
     @OneToMany(type => ProviderProductEntity, providerProduct => providerProduct.product)
-    providerProduct: ProviderProductEntity;
+    providerProduct: ProviderProductEntity[];
 }

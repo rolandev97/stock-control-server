@@ -1,14 +1,22 @@
 import {RoleEntity} from "../entities/role.entity";
 import {UserDto} from "./user.dto";
+import {ApiProperty} from "@nestjs/swagger";
 
 export class RoleDto {
+    @ApiProperty()
     id: string;
+    @ApiProperty()
     name: string;
+    @ApiProperty()
     createdBy: string;
+    @ApiProperty()
     createdDate: Date;
+    @ApiProperty()
     updatedBy: string;
+    @ApiProperty()
     updatedDate: Date;
 
+    @ApiProperty()
     users: UserDto[];
 
     public static fromEntity(role: RoleEntity | null): RoleDto{

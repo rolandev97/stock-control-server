@@ -26,7 +26,7 @@ import {ProviderProductModule} from "./modules/provider-product.module";
               password: configService.get('DATABASE_PASSWORD'),
               database: configService.get('DATABASE_NAME'),
               entities: ["dist/**/*.entity.js"],
-              synchronize: true,
+              synchronize: false,
               migrations: ["dist/db/migrations/*.js"],
               logging: true,
           }),

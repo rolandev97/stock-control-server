@@ -18,7 +18,7 @@ async function bootstrap() {
   //Create nest module
   const app = await NestFactory.create(AppModule);
 
-  //Use valid ation pipe for all app request
+  //Use validation pipe for all app request
   app.useGlobalPipes(new ValidationPipe());
 
   //Enable cors

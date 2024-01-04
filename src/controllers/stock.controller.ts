@@ -40,4 +40,10 @@ export class StockController {
         return this.stockService.getStockById(Number.parseInt(stockId));
     }
 
+    @Get("get-all-stock")
+    @HttpCode(HttpStatus.OK)
+    async getAllStock(){
+        return this.stockService.getStocksWithoutPagination();
+    }
+
 }

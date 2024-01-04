@@ -7,16 +7,25 @@ export class ProviderProductDto{
     @ApiProperty()
     id: number;
     @ApiProperty()
-    productDto: ProductDto;
+    product: ProductDto;
     @ApiProperty()
-    providerDto: ProviderDto;
+    provider: ProviderDto;
 
     static fromEntity(entity: ProviderProductEntity | null): ProviderProductDto{
         const dto = new ProviderProductDto();
         dto.id = entity!.id;
-        dto.providerDto = ProviderDto.fromEntity(entity?.provider!);
-        dto.productDto = ProductDto.fromEntity(entity?.product!);
+        dto.provider = ProviderDto.fromEntity(entity?.provider!);
+        dto.product = ProductDto.fromEntity(entity?.product!);
 
         return dto;
+    }
+
+    static toEntity(dto: ProviderProductDto | null): ProviderProductEntity{
+        const entity = new ProviderProductEntity();
+        entity.id = dto!.id;
+        entity.provider = ProviderDto.toEntity(dto!.provider!);
+        entity.product = ProductDto.toEntity(dto!.product!);
+
+        return entity;
     }
 }

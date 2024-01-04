@@ -11,6 +11,7 @@ import {OrderModule} from "./modules/order.module";
 import {ProviderModule} from "./modules/provider.module";
 import {ProviderProductModule} from "./modules/provider-product.module";
 import {StockModule} from "./modules/stock.module";
+import { CategoryController } from './controllers/category/category.controller';
 
 @Module({
   imports: [

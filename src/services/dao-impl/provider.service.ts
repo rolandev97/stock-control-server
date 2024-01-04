@@ -27,6 +27,10 @@ export class ProviderService implements ProviderDao{
             .then( entity => ProviderDto.fromEntity(entity!));
     }
 
+    getAllProviders(): Promise<ProviderDto[]> {
+        return this.providerRepo.find({relations: ['providerProduct']}).then((entityMap) => entityMap.map((e) => ProviderDto.fromEntity(e)))
+    }
+
     async getProviders(page: number, limit: number): Promise<PaginationDataDto<ProviderDto>> {
         const skip = (page - 1) * limit;
         const [data, total] = await this.providerRepo.findAndCount({

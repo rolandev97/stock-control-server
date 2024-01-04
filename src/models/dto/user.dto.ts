@@ -51,7 +51,7 @@ export class UserDto {
     updatedDate: Date;
 
     @ApiProperty({type: () => OrderDto})
-    orderDto: OrderDto[];
+    order: OrderDto[];
     @ApiProperty({ type: ()=> RoleDto})
     role: RoleDto;
 
@@ -73,5 +73,25 @@ export class UserDto {
         dto.role = RoleDto.fromEntity(entity!.role);
 
         return dto;
+    }
+
+    public static toEntity(dto: UserDto | null) : UserEntity{
+        const entity = new UserEntity();
+        entity.id = dto!.id;
+        entity.email = dto!.email;
+        entity.address = dto!.address;
+        entity.name = dto!.name;
+        entity.password = dto!.password;
+        entity.tokenResetPassword = dto!.tokenResetPassword;
+        entity.phoneNumber = dto!.phoneNumber;
+        entity.isActive = dto!.isActive;
+        entity.createdBy = dto!.createdBy;
+        entity.createdDate = dto!.createdDate;
+        entity.updatedBy = dto!.updatedBy;
+        entity.imageUrl = dto!.imageUrl;
+        entity.updatedDate = dto!.updatedDate;
+        entity.role = RoleDto.toEntity(dto!.role);
+
+        return entity;
     }
 }

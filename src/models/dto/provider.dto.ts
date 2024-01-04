@@ -14,7 +14,7 @@ export class ProviderDto {
     telephone: string;
 
     @ApiProperty()
-    providerProductDto: ProviderProductDto[];
+    providerProduct: ProviderProductDto[];
 
     static fromEntity(entity: ProviderEntity): ProviderDto{
         const dto = new ProviderDto();
@@ -22,8 +22,19 @@ export class ProviderDto {
         dto.name = entity!.name;
         dto.address = entity!.address;
         dto.telephone = entity!.telephone;
-        dto.providerProductDto = entity!.providerProduct.map( p => ProviderProductDto.fromEntity(p));
+        dto.providerProduct = entity!.providerProduct.map( p => ProviderProductDto.fromEntity(p));
 
         return dto;
+    }
+
+    static toEntity(dto: ProviderDto): ProviderEntity{
+        const entity = new ProviderEntity();
+        entity.id = dto!.id;
+        entity.name = dto!.name;
+        entity.address = dto!.address;
+        entity.telephone = dto!.telephone;
+        entity.providerProduct = dto!.providerProduct.map( p => ProviderProductDto.toEntity(p));
+
+        return entity;
     }
 }

@@ -10,5 +10,5 @@ export class SectorEntity extends Audit{
     name: string;
 
     @OneToMany(type => CategoryEntity, cat => cat.sector)
-    categories: CategoryEntity[];
+    categories: CategoryEntity[] | null;
 }

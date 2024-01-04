@@ -3,22 +3,36 @@ import {Injectable} from "@nestjs/common";
 import {ProductDao} from "../dao/product.dao";
 import {ProductRepository} from "../../repositories/product.repository";
 import {PaginationDataDto} from "../../models/dto/pagination-data.dto";
-import {OrderDto} from "../../models/dto/order.dto";
+import {StockService} from "./stock.service";
+import {StockRepository} from "../../repositories/stock.repository";
+import {StockEntity} from "../../models/entities/stock.entity";
+import {ProductEntity} from "../../models/entities/product.entity";
 
 @Injectable()
 export class ProductService implements ProductDao{
 
-    constructor(private productRepo: ProductRepository) {
+    constructor(private productRepo: ProductRepository, private stockService: StockService, private stockRepository: StockRepository) {
     }
 
-    createProduct(productDto: ProductDto): Promise<ProductDto> {
-        return this.productRepo.save(productDto);
+    async createProduct(productDto: ProductDto): Promise<ProductDto> {
+        const product = await this.productRepo.save(productDto);
+        return ProductDto.fromEntity(product);
     }
 
-    deleteProduct(productId: string): Promise<boolean> {
-        return this.productRepo.delete(productId)
-            .then( ()=> Promise.resolve(true) )
-            .catch( ()=> Promise.resolve(false));
+    async deleteProduct(productId: string): Promise<boolean> {
+        const product = await this.productRepo
+            .findOneOrFail({where: {id: Number.parseInt(productId)}, relations: ["stock", "category"] });
+        await Promise.all(product.stock!.map( async (s) => {
+            await this.stockRepository
+                .createQueryBuilder()
+                .update(StockEntity)
+                .set({product: null})
+                .where('id = :id', {id: s.id})
+                .execute();
+        }));
+        const removeProduct = await this.productRepo.remove(product);
+
+        return removeProduct != null;
     }
 
     getProductById(productId: number): Promise<ProductDto> {
@@ -30,7 +44,8 @@ export class ProductService implements ProductDao{
         const skip = (page - 1) * limit;
         const [data, total] = await this.productRepo.findAndCount({
             skip: skip,
-            take: limit
+            take: limit,
+            relations: ["category", "stock"]
         });
         const totalPages = Math.ceil(total / limit);
 
@@ -42,10 +57,20 @@ export class ProductService implements ProductDao{
         return paginationDataDto;
     }
 
-    updateProduct(productId: number, productDto: ProductDto): Promise<ProductDto> {
-        return this.productRepo.update(productId, productDto)
-            .then(() => this.productRepo.findOne({where: {id: productId}, relations: ["user", "category"]}))
-            .then(p => ProductDto.fromEntity(p!));
+    async updateProduct(productId: number, productDto: ProductDto): Promise<ProductDto> {
+        const productToUpdate = await this.productRepo.findOneOrFail({ where: {id: productId}, relations: ["stock", "category"]});
+        const dto = ProductDto.fromEntity(productToUpdate);
+        dto.id = productDto.id;
+        dto.name = productDto.name;
+        dto.quantity = productDto.quantity;
+        dto.price = productDto.price;
+        dto.description = productDto.description;
+        dto.category = productDto.category;
+        dto.stock = productDto.stock;
+        dto.providerProduct = productDto.providerProduct;
+        dto.orderProduct = productDto.orderProduct;
+
+        return await this.productRepo.save(dto);
     }
 
 }

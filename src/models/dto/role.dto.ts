@@ -31,4 +31,17 @@ export class RoleDto {
 
         return roleDto;
     }
+
+    public static toEntity(dto: RoleDto | null): RoleEntity{
+        const entity = new RoleEntity();
+        entity.id = dto!.id;
+        entity.name = dto!.name;
+        entity.createdDate = dto!.createdDate;
+        entity.createdBy = dto!.createdBy;
+        entity.updatedBy = dto!.updatedBy;
+        entity.updatedDate = dto!.updatedDate;
+        entity.users = dto!.users?.map( user => UserDto.toEntity(user) );
+
+        return entity;
+    }
 }

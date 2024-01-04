@@ -8,4 +8,5 @@ export interface ProviderDao {
     updateProvider(providerId: number, providerDto: ProviderDto): Promise<ProviderDto>;
     getProviderById(providerId: number): Promise<ProviderDto>;
     getProviders(page: number, limit: number): Promise<PaginationDataDto<ProviderDto>>;
+    getAllProviders(): Promise<ProviderDto[]>;
 }

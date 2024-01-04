@@ -7,7 +7,6 @@ import {UserRepository} from "../../repositories/user.repository";
 import {RoleService} from "./role.service";
 import {MailDto} from "../../models/dto/mail.dto";
 import {MailService} from "./mail.service";
-import {RoleDto} from "../../models/dto/role.dto";
 
 @Injectable()
 export class UserService implements UserDao{
@@ -25,8 +24,7 @@ export class UserService implements UserDao{
         mailDto.content = `Hi, ${user.name} your <strong>Stock Control</strong> account has been successfully created.<br>Your defaut password is ${user.password}, please change it.`;
         user.password = encryptPass;
         user.isActive = true;
-        const defaultRole = await this.roleService.findRoleByName("ROLE_USER");
-        user.role = defaultRole;
+        user.role = await this.roleService.findRoleByName("ROLE_USER");
         const result = await this.userRepository.save(user);
         if(result != null){
             const sendMailResult = await this.mailService.sendMail(mailDto);

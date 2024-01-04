@@ -13,7 +13,7 @@ export class CategoryEntity extends Audit{
     code: string;
 
     @OneToMany(type => ProductEntity, product => product.category)
-    product: ProductEntity[];
+    product: ProductEntity[] | null;
     @ManyToOne(type => SectorEntity, sector => sector.categories)
-    sector: SectorEntity;
+    sector: SectorEntity | null;
 }

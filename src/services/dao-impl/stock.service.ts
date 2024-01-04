@@ -4,6 +4,7 @@ import {StockDto} from "../../models/dto/stock.dto";
 import {StockRepository} from "../../repositories/stock.repository";
 import {PaginationDataDto} from "../../models/dto/pagination-data.dto";
 import {ProductDto} from "../../models/dto/product.dto";
+import {StockEntity} from "../../models/entities/stock.entity";
 
 @Injectable()
 export class StockService implements StockDao{
@@ -11,8 +12,8 @@ export class StockService implements StockDao{
     constructor(private stockRepo: StockRepository) {
     }
 
-    createStock(stockDto: StockDto): Promise<StockDto> {
-        return this.stockRepo.save(stockDto);
+    async createStock(stockDto: StockDto): Promise<StockDto> {
+        return StockDto.fromEntity(await this.stockRepo.save(stockDto));
     }
 
     deleteStock(stockId: string): Promise<boolean> {
@@ -30,7 +31,8 @@ export class StockService implements StockDao{
         const skip = (page - 1) * limit;
         const [data, total] = await this.stockRepo.findAndCount({
             skip: skip,
-            take: limit
+            take: limit,
+            relations: ['product']
         });
         const totalPages = Math.ceil(total / limit);
 
@@ -46,6 +48,12 @@ export class StockService implements StockDao{
         return this.stockRepo.update(stockId, stockDto)
             .then(() => this.stockRepo.findOne({where: {id: stockId}, relations: ["product"]}))
             .then(p => StockDto.fromEntity(p!));
+    }
+
+    getStocksWithoutPagination(): Promise<StockDto[]> {
+        return this.stockRepo.
+        find({relations: ["product"]}).
+        then( entity => entity.map( s => StockDto.fromEntity(s)));
     }
 
 }

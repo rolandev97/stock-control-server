@@ -13,18 +13,29 @@ export class CategoryDto {
     code: string;
 
     @ApiProperty()
-    productDto: ProductDto[];
+    product: ProductDto[] | null;
     @ApiProperty()
-    sectorDto: SectorDto;
+    sector: SectorDto | null;
 
     static fromEntity(entity: CategoryEntity): CategoryDto{
         const dto = new CategoryDto();
         dto.id = entity.id;
         dto.name = entity.name;
-        dto.code = entity.name;
-        dto.productDto = entity.product.map((p) => ProductDto.fromEntity(p));
-        dto.sectorDto = SectorDto.fromEntity(entity.sector);
+        dto.code = entity.code;
+        dto.product = entity.product != null ? entity.product.map((p) => ProductDto.fromEntity(p)) : null ;
+        dto.sector = entity.sector != null ? SectorDto.fromEntity(entity.sector) : null;
 
         return dto;
+    }
+
+    static toEntity(dto: CategoryDto): CategoryEntity{
+        const entity = new CategoryEntity();
+        entity.id = dto.id;
+        entity.name = dto.name;
+        entity.code = dto.code;
+        entity.product = dto.product != null ? dto.product.map((p) => ProductDto.toEntity(p)) : null ;
+        entity.sector = dto.sector != null ? SectorDto.toEntity(dto.sector) : null;
+
+        return entity;
     }
 }

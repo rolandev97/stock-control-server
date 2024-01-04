@@ -13,6 +13,6 @@ import {StockRepository} from "../repositories/stock.repository";
         useFactory: (stockRepository) => new StockRepository(stockRepository),
         inject: [getRepositoryToken(StockEntity)]
     }],
-    exports: [StockService]
+    exports: [StockService, StockRepository]
 })
 export class StockModule {}

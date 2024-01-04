@@ -7,4 +7,5 @@ export interface StockDao{
     updateStock(stockId: number, stockDto: StockDto): Promise<StockDto>;
     getStockById(stockId: number): Promise<StockDto>;
     getStocks(page: number, limit: number): Promise<PaginationDataDto<StockDto>>;
+    getStocksWithoutPagination(): Promise<StockDto[]>;
 }

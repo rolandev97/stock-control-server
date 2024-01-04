@@ -9,14 +9,23 @@ export class SectorDto {
     name: string;
 
     @ApiProperty()
-    categoriesDto: CategoryDto[];
+    categories: CategoryDto[] | null;
 
     static fromEntity(entity: SectorEntity): SectorDto{
         const dto = new SectorDto();
         dto.id = entity.id;
         dto.name = entity.name;
-        dto.categoriesDto = entity.categories.map((c) => CategoryDto.fromEntity(c));
+        dto.categories =  entity.categories != null ? entity.categories.map((c) => CategoryDto.fromEntity(c)) : null;
 
         return dto;
+    }
+
+    static toEntity(dto: SectorDto): SectorEntity{
+        const entity = new SectorEntity();
+        entity.id = dto.id;
+        entity.name = dto.name;
+        entity.categories =  dto.categories != null ? dto.categories.map((c) => CategoryDto.toEntity(c)) : null;
+
+        return entity;
     }
 }

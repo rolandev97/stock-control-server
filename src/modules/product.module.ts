@@ -7,7 +7,7 @@ import {StockModule} from "./stock.module";
 import {ProductController} from "../controllers/product.controller";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ProductEntity])],
+    imports: [TypeOrmModule.forFeature([ProductEntity]), StockModule],
     controllers: [ProductController],
     providers: [ProductService, {
         provide: ProductRepository,

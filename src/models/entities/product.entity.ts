@@ -25,13 +25,15 @@ export class ProductEntity extends Audit{
     description: string;
     @Column({type: 'int', nullable: false})
     price: number;
+    @Column({type: 'int', nullable: false})
+    quantity: number;
 
     @OneToMany(type => OrderProductEntity, orderProduct => orderProduct.product)
-    orderProduct: OrderProductEntity[];
+    orderProduct: OrderProductEntity[] | null;
     @OneToMany(type => StockEntity, s => s.product)
-    stock: StockEntity[];
+    stock: StockEntity[] | null;
     @OneToMany(type => ProviderProductEntity, providerProduct => providerProduct.product)
-    providerProduct: ProviderProductEntity[];
+    providerProduct: ProviderProductEntity[] | null;
     @ManyToOne(type => CategoryEntity, category => category.product)
-    category: CategoryEntity;
+    category: CategoryEntity | null;
 }

@@ -34,6 +34,12 @@ export class ProviderController{
         return this.providerService.getProviders(page, limit ?? 10);
     }
 
+    @Get("get-all-providers")
+    @HttpCode(HttpStatus.OK)
+    async getAllProviders(){
+        return this.providerService.getAllProviders();
+    }
+
     @Get("get-provider/:id")
     @HttpCode(HttpStatus.OK)
     async getProvider(@Param("id") providerId: string){

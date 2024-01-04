@@ -7,10 +7,11 @@ import {RoleRepository} from "../repositories/role.repository";
 import {CategoryEntity} from "../models/entities/category.entity";
 import {CategoryService} from "../services/dao-impl/category.service";
 import {CategoryRepository} from "../repositories/category.repository";
+import {CategoryController} from "../controllers/category/category.controller";
 
 @Module({
     imports: [TypeOrmModule.forFeature([CategoryEntity])],
-    controllers: [],
+    controllers: [CategoryController],
     providers: [CategoryService, {
         provide: CategoryRepository,
         useFactory: (catRepository) => new CategoryRepository(catRepository),
